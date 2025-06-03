@@ -14,6 +14,7 @@ Deployment Steps:
 - Clone the repository
 
   git clone <repository-url>
+  
   cd <repository-directory>
 
 - Initialize Terraform

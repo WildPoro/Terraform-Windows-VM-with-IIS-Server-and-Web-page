@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic meta tags for character set and responsive viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> WildPoro's Server Cave</title>
+    
+    <!-- CSS Styles -->
+    <style>
+        /* CSS variables for easy color management */
+        :root {
+            --primary: #6c5ce7;       /* Main purple color */
+            --secondary: #00cec9;    /* Teal accent color */
+            --wild-color: #ff7675;   /* WildPoro's signature color */
+        }
+        
+        /* Main page styling */
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        /* Main content container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);  /* Semi-transparent black */
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(255, 118, 117, 0.3);  /* Glow effect */
+            backdrop-filter: blur(10px);     /* Frosted glass effect */
+            border: 2px solid var(--wild-color);  /* WildPoro accent border */
+        }
+        
+        /* Main heading with gradient text */
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0;
+            background: linear-gradient(to right, var(--wild-color), var(--secondary));
+            -webkit-background-clip: text;  /* Gradient text effect */
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(255, 118, 117, 0.3);  /* Subtle glow */
+        }
+        
+        /* Subheading/tagline */
+        .tagline {
+            font-style: italic;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+        }
+        
+        /* Server status box */
+        .server-stats {
+            background: rgba(255, 255, 255, 0.1);  /* Light translucent background */
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        /* Main action button */
+        .wild-button {
+            background: linear-gradient(to right, var(--wild-color), var(--primary));
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;  /* Pill shape */
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s;  /* Smooth hover effects */
+            font-weight: bold;
+        }
+        .wild-button:hover {
+            transform: scale(1.05);  /* Slight grow effect */
+            box-shadow: 0 0 15px var(--wild-color);  /* Glow on hover */
+        }
+        
+        /* Facts display area */
+        #wild-fact {
+            background: rgba(255, 118, 117, 0.2);  /* WildPoro color with transparency */
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem auto;
+            max-width: 80%;
+            border-left: 3px solid var(--wild-color);  /* Accent border */
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease-out;  /* Entry animation */
+        }
+        
+        /* Animation definition for facts */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Footer styling */
+        .wild-footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);  /* Semi-transparent text */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main content container -->
+    <div class="container">
+        <h1>WILDPORO'S SERVER CAVE</h1>
+        <p class="tagline">Where magic and machine meet</p>
+        
+        <!-- Server status information -->
+        <div class="server-stats">
+            <p><strong>Server Time:</strong> <span id="server-time"></span></p>
+            <p><strong>Status:</strong> <span style="color: var(--secondary)">Operational</span></p>
+        </div>
+
+        <!-- Facts display area (initially empty) -->
+        <div id="wild-fact">Click below for your first WildPoro fact!</div>
+        
+        <!-- Button to trigger next fact -->
+        <button class="wild-button" onclick="showNextFact()">Next Fact</button>
+        
+        <!-- Footer with credits -->
+        <div class="wild-footer">
+            Crafted with <3 by WildPoro | Powered by Azure
+        </div>
+    </div>
+
+    <!-- JavaScript functionality -->
+    <script>
+        // Update server time every second
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('server-time').textContent = now.toLocaleString();
+        }
+        setInterval(updateTime, 1000);  // Update every second
+        updateTime();  // Initial call to display time immediately
+
+        // Array of WildPoro facts
+        const wildFacts = [
+            "Did you know? Poros can debug code with their fluff!",
+            "WildPoro secret: This server is cooled by arctic winds",
+            "Pro tip: Always keep berry juice away from server racks",
+            "Legend says the first Poro invented the cloud",
+            "This server has processed over 9000 Poro snuggles",
+            "Fact: Poros never need to reboot - they just take naps",
+            "WildPoro wisdom: More RAM = more snack storage",
+            "Server legend: The 404 error was invented by a lost Poro",
+            "WildPoro fact: Our uptime is measured in 'snuggle-seconds'",
+            "Secret: The server hums Poro lullabies at midnight"
+        ];
+        
+        // Track current fact index
+        let currentFactIndex = -1;
+        const factElement = document.getElementById('wild-fact');
+        
+        // Display next fact in sequence
+        function showNextFact() {
+            // Cycle through facts array
+            currentFactIndex = (currentFactIndex + 1) % wildFacts.length;
+            factElement.textContent = wildFacts[currentFactIndex];
+            
+            // Restart animation for visual feedback
+            factElement.style.animation = 'none';
+            void factElement.offsetWidth; // Trigger reflow to reset animation
+            factElement.style.animation = 'fadeIn 0.5s ease-out';
+        }
+    </script>
+</body>
+</html>
+
+
+
